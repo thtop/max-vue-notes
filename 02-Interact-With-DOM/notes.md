@@ -4,13 +4,15 @@
 
 - DOM interaction
 
+--- 
+
 ### Underatanding VueJS Templates
 
 - The `{{ }}` Syntax is also called "**Interpolation**" or "**String Interpolation**"
 
-### How the VueJS Template Syntax and Instance Work Together
+--- 
 
-**HTML**
+### How the VueJS Template Syntax and Instance Work Together
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -19,8 +21,6 @@
   <p>{{ sayHello() }}</p>
 </div>
 ```
-
-**js**
 
 ```js
 new Vue({
@@ -36,9 +36,9 @@ new Vue({
 });
 ```
 
-### Accessing Data in the Vue Instance
+---
 
-**HTML**
+### Accessing Data in the Vue Instance
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -47,8 +47,6 @@ new Vue({
   <p>{{ sayHello() }}</p>
 </div>
 ```
-
-**js**
 
 ```js
 new Vue({
@@ -64,9 +62,9 @@ new Vue({
 });
 ```
 
-### Binding to Attributes
+---
 
-**HTML**
+### Binding to Attributes
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -75,8 +73,6 @@ new Vue({
   <p>{{ sayHello() }} - <a v-bind:href="link">Google</a></p>
 </div>
 ```
-
-**js**
 
 ```js
 new Vue({
@@ -92,6 +88,8 @@ new Vue({
   }
 });
 ```
+
+---
 
 ### Understanding and Using Directives
 
@@ -112,12 +110,12 @@ new Vue({
 });
 ```
 
+---
+
 ### Disable Re-Rendering with v-once
 
 - Keep in mind: All usages of "title" get re-rendered once the property changes!
 - `v-once`
-
-**HTML**
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -127,8 +125,6 @@ new Vue({
   <p>{{ sayHello() }} - <a v-bind:href="link">Google</a></p>
 </div>
 ```
-
-**js**
 
 ```js
 new Vue({
@@ -153,11 +149,11 @@ Hello World
 Hello! - Google
 ```
 
+--- 
+
 ### How to Output Raw HTML
 
 - `v-html`
-
-**HTML**
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -169,8 +165,6 @@ Hello! - Google
   <p v-html="finishedLink"></p>
 </div>
 ```
-
-**js**
 
 ```js
 new Vue({
@@ -198,11 +192,11 @@ Hello! - Google
 Google
 ```
 
+---
+
 ### Assignment 1: Time to Practic - Outputting Data to Templates
 
 - **Exercise-1**
-
-**HTML**
 
 ```html
 <!DOCTYPE html>
@@ -241,8 +235,6 @@ Google
 </html>
 ```
 
-**JS**
-
 ```js
 new Vue({
   el: '#exercise',
@@ -263,4 +255,334 @@ new Vue({
 });
 ```
 
+--- 
+
 ### Listening to Events
+
+```html
+<div id="app">
+  <button v-on:click="increase"> Click me</button>
+  <p>{{ counter }}</p>
+</div>
+```
+
+```js
+new Vue({
+ el: '#app',
+ data: {
+  	counter: 0
+ },
+ methods: {
+ 	increase: function() {
+  	this.counter++;
+  }
+ }
+});
+```
+
+---
+
+### Getting Event Data from the Event Object
+
+```html
+<div id="app">
+  <button v-on:click="increase"> Click me</button>
+  <p>{{ counter }}</p>
+  <p v-on:mousemove="updateCoordinates">
+    Coordinates: {{ x }} / {{ y }}
+   </p>
+</div>
+```
+
+```js
+new Vue({
+ el: '#app',
+ data: {
+  	counter: 0,
+    x: 0,
+    y: 0
+ },
+ methods: {
+ 	increase: function() {
+  	this.counter++;
+  },
+  updateCoordinates: function(event) {
+  	this.x = event.clientX;
+    this.y = event.clientY;
+  }
+ }
+});
+```
+
+---
+
+### Passing your own Arguments with Events
+
+```html
+<div id="app">
+  <button v-on:click="increase(2, $event)"> 
+    Click me
+  </button>
+  <p>{{ counter }}</p>
+  <p v-on:mousemove="updateCoordinates">
+    Coordinates: {{ x }} / {{ y }}
+  </p>
+</div>
+```
+
+```js
+new Vue({
+ el: '#app',
+ data: {
+  	counter: 0,
+    x: 0,
+    y: 0
+ },
+ methods: {
+ 	increase: function(step, event) {
+  	this.counter += step;
+  },
+  updateCoordinates: function(event) {
+  	this.x = event.clientX;
+    this.y = event.clientY;
+  }
+ }
+});
+```
+---
+
+### Modifying an Event - with Event Modufiers
+
+Version 1
+
+```html
+<div id="app">
+  <button v-on:click="increase(2, $event)"> 
+    Click me
+  </button>
+  <p>{{ counter }}</p>
+  <p v-on:mousemove="updateCoordinates">
+    Coordinates: {{ x }} / {{ y }}
+    - <span v-on:mousemove="dummy">DEAD STOP</span>
+   </p>
+</div>
+```
+
+```js
+new Vue({
+ el: '#app',
+ data: {
+  	counter: 0,
+    x: 0,
+    y: 0
+ },
+ methods: {
+ 	increase: function(step, event) {
+  	this.counter += step;
+  },
+  updateCoordinates: function(event) {
+  	this.x = event.clientX;
+    this.y = event.clientY;
+  },
+  dummy: function(event) {
+  	event.stopPropagation();
+  }
+ }
+});
+```
+
+Versoin 2
+
+```html
+<div id="app">
+  <button v-on:click="increase(2, $event)"> 
+    Click me
+  </button>
+  <p>{{ counter }}</p>
+  <p v-on:mousemove="updateCoordinates">
+    Coordinates: {{ x }} / {{ y }}
+    - <span v-on:mousemove.stop="">DEAD STOP</span>
+   </p>
+</div>
+
+<!-- <span v-on:mousemove.stop.prevent="">DEAD STOP</span> -->
+```
+
+```js
+new Vue({
+ el: '#app',
+ data: {
+  	counter: 0,
+    x: 0,
+    y: 0
+ },
+ methods: {
+ 	increase: function(step, event) {
+  	this.counter += step;
+  },
+  updateCoordinates: function(event) {
+  	this.x = event.clientX;
+    this.y = event.clientY;
+  }
+ }
+});
+```
+
+---
+
+### Listening to Keyboard Events
+
+```html
+<div id="app">
+  <button v-on:click="increase(2, $event)"> 
+    Click me
+  </button>
+  <p>{{ counter }}</p>
+  <p v-on:mousemove="updateCoordinates">
+    Coordinates: {{ x }} / {{ y }}
+    - <span v-on:mousemove.stop="">DEAD STOP</span>
+   </p>
+   <input type="text" v-on:keyup.enter.space="alertMe">
+</div>
+
+```
+
+```js
+new Vue({
+ el: '#app',
+ data: {
+  	counter: 0,
+    x: 0,
+    y: 0
+ },
+ methods: {
+ 	increase: function(step, event) {
+  	this.counter += step;
+  },
+  updateCoordinates: function(event) {
+  	this.x = event.clientX;
+    this.y = event.clientY;
+  },
+  alertMe: function() {
+  	alert('Alert!');
+  }
+ }
+});
+```
+
+---
+
+
+### Assignment 2: Time to Practice - Events
+
+```html
+<div id="exercise">
+  <!-- 1) Show an alert when the Button gets clicked -->
+  <div>
+    <button v-on:click="buttonClick">Show Alert</button>
+  </div>
+  <!-- 2) Listen to the "keydown" event and store the value in a data property (hint: event.target.value gives you the value) -->
+  <div>
+    <input type="text" v-on:keydown="value = $event.target.value" />
+    <p>{{ value }}</p>
+  </div>
+  <!-- 3) Adjust the example from 2) to only fire if the "key down" is the ENTER key -->
+  <div>
+    <input type="text" v-on:keydown.enter="value = $event.target.value" />
+    <p>{{ value }}</p>
+  </div>
+</div>
+```
+
+```js
+new Vue({
+  el: '#exercise',
+  data: {
+    value: ''
+  },
+  methods: {
+    buttonClick: function() {
+      alert('alert');
+    }
+  }
+});
+
+```
+
+---
+
+
+### Writing JavaScript Code in the Templates
+
+```html
+<div id="app">
+  <button v-on:click="increase(2, $event)"> 
+    Click me
+  </button>
+  <button v-on:click="counter++"> 
+    Click me
+  </button>
+  <p>{{ counter * 2 > 10 ? 'Greater than 10 : 'Smaller than 10'  }}</p>
+  <p v-on:mousemove="updateCoordinates">
+    Coordinates: {{ x }} / {{ y }}
+    - <span v-on:mousemove.stop="">DEAD STOP</span>
+   </p>
+   <input type="text" v-on:keyup.enter.space="alertMe">
+</div>
+
+```
+
+```js
+new Vue({
+ el: '#app',
+ data: {
+  	counter: 0,
+    x: 0,
+    y: 0
+ },
+ methods: {
+ 	increase: function(step, event) {
+  	this.counter += step;
+  },
+  updateCoordinates: function(event) {
+  	this.x = event.clientX;
+    this.y = event.clientY;
+  },
+  alertMe: function() {
+  	alert('Alert!');
+  }
+ }
+});
+```
+
+---
+
+
+### Using Two-Way-Bingind
+
+---
+
+### Reacting to Changes with Computed Properties
+
+### An Alternative to Computed Properties: Watching for Changes
+
+### Saving Time with Shorthands
+
+### Assingment 3: Time to Practice - Reactive Properties
+
+### Dynamic Styling with CSS Classes - Basics
+
+### Dynamic Styling with CSS Classes - Using Objects
+
+### Dynamic Styling with CSS Classes - Using Names
+
+### Setting Styles Dynamically (without CSS Classes)
+
+### Styling Elements with the Array Syntax
+
+### Assignment 4: Time to Practice - Styling 
+
+### Module Weap Up
+
+### Module Resources & Useful Links
+
