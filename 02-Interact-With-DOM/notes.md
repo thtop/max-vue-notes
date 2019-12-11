@@ -560,9 +560,124 @@ new Vue({
 
 ### Using Two-Way-Bingind
 
+- `v-model`
+
+```html
+<div id="app">
+  <input type="text" v-model="name">
+  <p>{{ name }}</p>
+</div>
+```
+
+```js
+new Vue({
+	el: '#app',
+  data: {
+  	name: 'Max'
+  }
+});
+```
+
 ---
 
 ### Reacting to Changes with Computed Properties
+
+Version 1
+
+```html
+<div id="app">
+  <button v-on:click="increase">Increase</button>
+  <button v-on:click="decrease">Decrease</button>
+  <p>Counter: {{ counter }}</p>
+  <p>Result: {{ result }}</p>
+</div>
+```
+
+```js
+new Vue({
+	el: '#app',
+  data: {
+  	counter: 0,
+    result: ''
+  },
+  methods: {
+  	increase: function() {
+    	this.counter++;
+      this.result = this.counter > 5 ? 'Greater 5' : 'Smaller 5'
+    },
+    decrease: function() {
+    	this.counter--;
+      this.result = this.counter > 5 ? 'Greater 5' : 'Smaller 5'
+    }
+  }
+});
+```
+
+Version 2
+
+```html
+<div id="app">
+  <button v-on:click="counter++">Increase</button>
+  <button v-on:click="counter--">Decrease</button>
+  <p>Counter: {{ counter }}</p>
+  <p>Result: {{ result() }}</p>
+</div>
+```
+
+```js
+new Vue({
+	el: '#app',
+  data: {
+  	counter: 0,
+  },
+  methods: {
+  	result() {
+    	return this.counter > 5 ? 'Greater 5' : 'Smaller than 5';
+    }
+  }
+});
+```
+
+Version 3
+
+```html
+<div id="app">
+  <button v-on:click="counter++">Increase</button>
+  <button v-on:click="counter--">Decrease</button>
+  <button v-on:click="secondCounter++">Increase Second</button>
+  <p>Counter: {{ counter }} | {{ secondCounter }}</p>
+  <p>Result: {{ result() }} || {{ output }}</p>
+</div>
+
+```
+
+```js
+new Vue({
+	el: '#app',
+  data: {
+  	counter: 0,
+    secondCounter: 0
+  },
+  computed: {
+  	output: function() {
+    	console.log('Computed');
+    	return this.counter > 5 ? 'Greater 5' : 'Smaller than 5';
+      }
+  },
+  methods: {
+  		result: function() {
+      console.log('Methods');
+    	return this.counter > 5 ? 'Greater 5' : 'Smaller than 5';
+    }
+  }
+});
+```
+
+**Known Options for Vue Instance**
+- **el**: Connect to DOM
+- **data**: Store Data to be used
+- **methods**: Methods of this Vue Instance
+- **computed**: Dependent Properties
 
 ### An Alternative to Computed Properties: Watching for Changes
 
