@@ -353,7 +353,7 @@ new Vue({
 
 ### Modifying an Event - with Event Modufiers
 
-Version 1
+**Version 1**
 
 ```html
 <div id="app">
@@ -391,7 +391,7 @@ new Vue({
 });
 ```
 
-Versoin 2
+**Versoin 2**
 
 ```html
 <div id="app">
@@ -582,7 +582,7 @@ new Vue({
 
 ### Reacting to Changes with Computed Properties
 
-Version 1
+**Version 1**
 
 ```html
 <div id="app">
@@ -613,7 +613,7 @@ new Vue({
 });
 ```
 
-Version 2
+**Version 2**
 
 ```html
 <div id="app">
@@ -638,7 +638,7 @@ new Vue({
 });
 ```
 
-Version 3
+**Version 3**
 
 ```html
 <div id="app">
@@ -673,11 +673,15 @@ new Vue({
 });
 ```
 
+---
+
 **Known Options for Vue Instance**
 - **el**: Connect to DOM
 - **data**: Store Data to be used
 - **methods**: Methods of this Vue Instance
 - **computed**: Dependent Properties
+
+---
 
 ### An Alternative to Computed Properties: Watching for Changes
 
